@@ -1,58 +1,94 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Battleship {
 
-  private static Scanner scanner = new Scanner(System.in);
-
-  private char empty = '-';
-  private char not_hit = '@';
-  private char hit = 'X';
-  private char miss = 'O';
-  private char[][] mapLocation = new char[5][5];
-  private char[][] mapTarget = new char[5][5];
-
   public static void main(String[] args) {
-    System.out.println("Welcome to Battleship!");
-    char[][] p1location = new char[5][5];
-    char[][] p2location = new char[5][5];
-    char[][] p1target = new char[5][5];
-    char[][] p2target = new char[5][5];
-    // Create the ocean map
-
+    System.out.println("\nWelcome to Battleship!\n");
   }
 
-  private void initializeBoard() {
-    for (int row = 0; row < 5; row++) {
+  // Use this method to print game boards to the console.
+  private static void printBattleShip(char[][] player) {
+    System.out.print("  ");
+    for (int row = -1; row < 5; row++) {
+      if (row > -1) {
+        System.out.print(row + " ");
+      }
       for (int column = 0; column < 5; column++) {
-        mapLocation[row][column] = empty;
-        mapTarget[row][column] = empty;
+        if (row == -1) {
+          System.out.print(column + " ");
+        } else {
+          System.out.print(player[row][column] + " ");
+        }
+      }
+      System.out.println("");
+    }
+  }
+
+  private static void player1(Scanner scanner) {
+    System.out.println("PLAYER 1, ENTER YOUR SHIPS’ COORDINATES.");
+    char[][] player1 = new char[5][5];
+    initializeBoard(player1);
+    placeShips(player1, scanner);
+
+    printBattleShip(player1);
+    for (int i = 0; i < 100; i++) {
+      System.out.println();
+    }
+  }
+
+  private static void player2(Scanner scanner) {
+    System.out.println("PLAYER 2, ENTER YOUR SHIPS’ COORDINATES.");
+    char[][] player2 = new char[5][5];
+    initializeBoard(player2);
+    placeShips(player2, scanner);
+
+    printBattleShip(player2);
+    for (int i = 0; i < 100; i++) {
+      System.out.println();
+    }
+  }
+
+  // Board initialize
+  private static void initializeBoard(char[][] board) {
+    for (int row = 0; row < board.length; row++) {
+      for (int column = 0; column < board[row].length; column++) {
+        board[row][column] = '-';
       }
     }
   }
 
-  private void player1Turn() {
-    System.out.println("PLAYER 1, ENTER YOUR SHIPS' COORDINATES.");
-    System.out.println("Enter ship 1 location:");
-    String ship1 = scanner.nextLine();
-  }
-
-  private void player2Turn() {
-    System.out.println("PLAYER 2, ENTER YOUR SHIPS' COORDINATES.");
-    System.out.println("Enter ship 1 location:");
-    String ship1 = scanner.nextLine();
-  }
-
-  private void invalidCoordinates() {
-    if (input < 0 || input > 4) {
-      System.out.println("Invalid coordinates. Choose different coordinates.");
-    }
-  }
-
-  private void occupied_coordinates() {
-    if (mapLocation[input][input] == 'X') {
-      System.out.println(
-        "You already have a ship there. Choose different coordinates."
-      );
+  private static void placeShips(char[][] board, Scanner scanner) {
+    for (int i = 0; i < 5; i++) {
+      while (true) {
+        try {
+          System.out.println("Enter ship " + (i + 1) + " location:");
+          int row = scanner.nextInt();
+          int column = scanner.nextInt();
+          if (
+            row < 0 ||
+            row >= board.length ||
+            column < 0 ||
+            column >= board[0].length
+          ) {
+            System.out.println(
+              "Invalid coordinates. Choose different coordinates."
+            );
+          } else if (board[row][column] == 'S') {
+            System.out.println(
+              "You already have a ship there. Choose different coordinates."
+            );
+          } else {
+            board[row][column] = 'S';
+            break;
+          }
+        } catch (InputMismatchException e) {
+          System.out.println(
+            "Invalid coordinates. Choose different coordinates."
+          );
+          scanner.next();
+        }
+      }
     }
   }
 }
