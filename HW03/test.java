@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Battleship {
+public class test {
 
   private static char[][] player1Grid = new char[5][5];
   private static char[][] player2Grid = new char[5][5];
@@ -66,14 +66,12 @@ public class Battleship {
         currentPlayerAttackGrid[fireRow][fireColumn] = 'X';
         attackTarget[fireRow][fireColumn] = 'X';
         printBattleShip(currentPlayerAttackGrid);
+        System.out.println();
 
         if (!checkGrid(attackTarget)) {
           winnerPlayer(currentPlayer, player1Grid, player2Grid);
           winner = true;
           break;
-        }
-        if (!winner) {
-          System.out.println();
         }
       }
       player1 = !player1;
@@ -82,10 +80,10 @@ public class Battleship {
 
   private static void playerTurn(int playerNumber, char[][] playerGrid) {
     System.out.println(
-      "PLAYER " + playerNumber + ", ENTER YOUR SHIPS' COORDINATES."
+      "PLAYER " + playerNumber + ", ENTER YOUR SHIPS COORDINATES."
     );
     for (int i = 0; i < 5; i++) {
-      System.out.println("Enter ship " + (i + 1) + " location:");
+      System.out.println("Enter Ship " + (i + 1) + " location:");
       int playerRow = scanner.nextInt(), playerColumn = scanner.nextInt();
       if (!validCoordinate(playerRow, playerColumn)) {
         System.out.println(
