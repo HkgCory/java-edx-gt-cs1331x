@@ -1,4 +1,4 @@
-package HW06;
+// package HW06;
 
 public class Dog extends Pet {
 
