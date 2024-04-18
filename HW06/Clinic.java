@@ -1,20 +1,15 @@
 // package HW06;
 
-// import HW06.InvalidPetException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Clinic {
 
   private File patientFile;
-  private int day;
+  private int day = 1;
 
   public Clinic(File file) {
     this.patientFile = file;
@@ -38,7 +33,6 @@ public class Clinic {
       int uniqueSkill = Integer.parseInt(parts[2]);
       String timeIn = parts[3];
 
-      double health;
       System.out.printf(
         "Consultation for %s the %s at %s.\nWhat is the health of %s?\n",
         name,
@@ -46,6 +40,7 @@ public class Clinic {
         timeIn,
         name
       );
+      double health;
       while (!inputScanner.hasNextDouble()) {
         inputScanner.next();
         System.out.println("Please enter a valid number for health");
@@ -82,7 +77,7 @@ public class Clinic {
           name,
           petType,
           uniqueSkill,
-          this.day,
+          day,
           timeIn,
           timeout,
           health,
@@ -92,8 +87,7 @@ public class Clinic {
     }
 
     fileScanner.close();
-    inputScanner.close();
-    this.day++;
+    day++;
     return patientBuilder.toString();
   }
 
@@ -123,11 +117,17 @@ public class Clinic {
 
   private String addTime(String timeIn, int treatmentTime) {
     int hours = Integer.parseInt(timeIn.substring(0, 2));
-    int minutes = Integer.parseInt(timeIn.substring(2) + treatmentTime);
+    int minutes = Integer.parseInt(timeIn.substring(2, 4));
 
-    hours += minutes / 60;
-    minutes %= 60;
+    int totalTime = hours * 60 + minutes;
+    totalTime += treatmentTime;
 
-    return String.format("%02d%02d", hours, minutes);
+    int newHours = totalTime / 60;
+    int newMinutes = totalTime % 60;
+    // hours += minutes / 60;
+    // minutes %= 60;
+
+    // int hours
+    return String.format("%02d%02d", newHours, newMinutes);
   }
 }
